@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: auction-system
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: MONGODB_URI
+        fromDatabase:
+          name: auction-mongodb
+          property: connectionString
+      - key: REDIS_HOST
+        fromService:
+          name: auction-redis
+          type: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          name: auction-redis
+          type: redis
+          property: port
+
+databases:
+  - name: auction-mongodb
+    databaseName: auction_system
+    plan: free
+
+  - name: auction-redis
+    plan: free

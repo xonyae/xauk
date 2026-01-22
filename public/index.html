@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auction System</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="app">
+    <div id="auth-section" class="container">
+      <div class="auth-box">
+        <h1>Auction System</h1>
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('login')">Login</button>
+          <button class="tab" onclick="showTab('register')">Register</button>
+        </div>
+
+        <div id="login-form" class="form-section">
+          <form onsubmit="handleLogin(event)">
+            <input type="text" id="login-username" placeholder="Username" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit">Login</button>
+          </form>
+        </div>
+
+        <div id="register-form" class="form-section hidden">
+          <form onsubmit="handleRegister(event)">
+            <input type="text" id="register-username" placeholder="Username" required>
+            <input type="password" id="register-password" placeholder="Password" required>
+            <select id="register-role">
+              <option value="user">User</option>
+              <option value="judge">Judge</option>
+            </select>
+            <button type="submit">Register</button>
+          </form>
+        </div>
+
+        <div id="auth-error" class="error hidden"></div>
+      </div>
+    </div>
+
+    <div id="main-section" class="hidden">
+      <nav class="navbar">
+        <div class="nav-content">
+          <h1>Auction System</h1>
+          <div class="nav-right">
+            <span id="user-info"></span>
+            <button onclick="addBalance()">Add Balance</button>
+            <button onclick="copyToken()">Copy Token</button>
+            <button onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container">
+        <div class="action-bar">
+          <button onclick="showAuctionList()">All Auctions</button>
+          <button onclick="showCreateAuction()">Create Auction</button>
+          <button onclick="showBankPage()">Bank</button>
+          <button onclick="showMyPrizes()">My Prizes</button>
+        </div>
+
+        <div id="auction-list" class="content-section">
+          <h2>All Auctions</h2>
+          <div id="auctions-container"></div>
+        </div>
+
+        <div id="create-auction" class="content-section hidden">
+          <h2>Create Auction</h2>
+          <form onsubmit="handleCreateAuction(event)" class="create-form">
+            <input type="text" id="auction-title" placeholder="Title (max 50 chars)" maxlength="50" required>
+            <textarea id="auction-description" placeholder="Description (max 100 chars)" maxlength="100"></textarea>
+            <input type="number" id="auction-rounds" placeholder="Number of Rounds (max 1000)" min="1" max="1000" required>
+            <input type="number" id="auction-duration" placeholder="Round Duration (seconds, max 259200)" min="60" max="259200" required>
+            <input type="number" id="auction-winners" placeholder="Winners per Round (max 10)" min="1" max="10" required>
+            <input type="text" id="auction-prizes" placeholder="Prizes (comma separated, max 100 chars each)" required>
+            <input type="number" id="auction-min-bid" placeholder="Minimum Bid (max 10000000)" min="1" max="10000000" required>
+
+            <div class="anti-sniping">
+              <h3>Anti-Sniping Settings</h3>
+              <label>
+                <input type="checkbox" id="anti-sniping-enabled" checked>
+                Enable Anti-Sniping
+              </label>
+              <input type="number" id="anti-sniping-threshold" placeholder="Threshold (minutes, max 1440)" value="10" min="1" max="1440">
+              <input type="number" id="anti-sniping-multiplier" placeholder="Step Multiplier (max 100000)" value="2" min="1" max="100000" step="0.1">
+            </div>
+
+            <button type="submit">Create Auction</button>
+          </form>
+        </div>
+
+        <div id="auction-detail" class="content-section hidden">
+          <div id="auction-info"></div>
+          <div id="auction-status"></div>
+
+          <div class="bidding-section">
+            <h3>Place Bid</h3>
+            <div id="min-bid-info"></div>
+            <form onsubmit="handlePlaceBid(event)">
+              <input type="number" id="bid-amount" placeholder="Bid Amount" min="1" required>
+              <button type="submit">Place Bid</button>
+            </form>
+            <div id="bid-error" class="error hidden"></div>
+          </div>
+
+          <div class="leaderboard-section">
+            <h3>Top 10 Bids</h3>
+            <div id="leaderboard"></div>
+          </div>
+
+          <div id="round-results" class="hidden">
+            <h3>Round Results</h3>
+            <div id="round-results-content"></div>
+          </div>
+        </div>
+
+        <div id="bank-section" class="content-section hidden">
+          <div id="bank-info"></div>
+        </div>
+
+        <div id="prizes-section" class="content-section hidden">
+          <h2>My Prizes</h2>
+          <div id="prizes-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notification" class="notification hidden"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

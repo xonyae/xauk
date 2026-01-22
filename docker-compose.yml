@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: auction-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: auction-system
+
+  redis:
+    image: redis:7-alpine
+    container_name: auction-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  app:
+    build: .
+    container_name: auction-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/auction-system
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your-production-secret-key-change-this
+      - JWT_EXPIRES_IN=7d
+      - PORT=3000
+    depends_on:
+      - mongodb
+      - redis
+    volumes:
+      - ./public:/app/public
+
+volumes:
+  mongodb_data:
+  redis_data:
