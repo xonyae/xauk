@@ -67,7 +67,7 @@
 
 2. Клонируйте репозиторий:
 ```bash
-git clone <repository-url>
+git clone https://github.com/xonyae/xauk
 cd auction-system
 ```
 
@@ -105,7 +105,7 @@ PORT=3000
 NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/auction-system
 REDIS_URL=redis://localhost:6379
-JWT_SECRET=your-secret-key-change-in-production
+JWT_SECRET=test
 JWT_EXPIRES_IN=7d
 ```
 
