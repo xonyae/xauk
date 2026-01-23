@@ -17,6 +17,8 @@
 https://github.com/user-attachments/assets/c3c6db04-153b-4d4c-8981-489755541ad3
 
 
+## Live сайт
+**https://demoauck1.onrender.com/**
 
 ## Технологический стек
 
